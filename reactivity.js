@@ -1,8 +1,10 @@
 
 const targetMap = new WeakMap()
+let activeEffect = null
 
-const effect = () => {
-  console.log('effect')
+const effect = fn => {
+  activeEffect = fn
+  fn()
 }
 
 const track = (target, key) => {
@@ -15,7 +17,9 @@ const track = (target, key) => {
   if (!deps) {
     depsMap.set(key, (deps = new Set()))
   }
-  deps.add(effect)
+  if (activeEffect) {
+    deps.add(activeEffect)
+  }
 
 }
 
@@ -26,9 +30,6 @@ const trigger = (target, key) => {
     const deps = depsMap.get(key)
     deps && deps.forEach(effect => effect());
   }
-
-
-
 }
 
 const reactive = (target) => {
@@ -38,8 +39,8 @@ const reactive = (target) => {
       return target[key]
     },
     set(target, key, value) {
-      trigger(target, key)
       target[key] = value
+      trigger(target, key)
     }
   }
   return new Proxy(target, handler)
@@ -49,7 +50,10 @@ const obj = reactive({
   name: 'Jack'
 })
 
-console.log(obj)
+effect(() => {
+  console.log("effect", obj.name)
+})
+
+
 console.log(obj.name)
 obj.name = "Tom"
-console.log(obj.name)
