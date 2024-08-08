@@ -1,14 +1,33 @@
 
 const targetMap = new WeakMap()
 let activeEffect = null
+const effectStack = []
 
-function effect(fn) {
+const jobQueue = new Set()
+const p = Promise.resolve()
+let isFlushing = false
+
+function flushJob() {
+  if (isFlushing) return
+  isFlushing = true
+  p.then(() => {
+    jobQueue.forEach(job => job())
+  }).finally(() => {
+    isFlushing = false
+  })
+}
+
+function effect(fn, options = {}) {
   const effectFn = () => {
     cleanup(effectFn)
     activeEffect = effectFn
+    effectStack.push(effectFn)
     fn()
+    effectStack.pop()
+    activeEffect = effectStack[effectStack.length - 1]
   }
   effectFn.deps = []
+  effectFn.options = options
   effectFn()
 
 }
@@ -46,8 +65,19 @@ const trigger = (target, key) => {
   if (depsMap) {
     const deps = depsMap.get(key)
     if (deps) {
-      const effectsToRun = new Set(deps)
-      effectsToRun && effectsToRun.forEach(effect => effect());
+      const effectsToRun = new Set()
+      deps && deps.forEach(effectFn => {
+        if (effectFn !== activeEffect) {
+          effectsToRun.add(effectFn)
+        }
+      })
+      effectsToRun.forEach(effectFn => {
+        if (effectFn.options.scheduler) {
+          effectFn.options.scheduler(effectFn)
+        } else {
+          effectFn()
+        }
+      });
     }
   }
 }
@@ -68,18 +98,30 @@ const reactive = (target) => {
 
 const obj = reactive({
   ok: true,
-  name: 'Jack'
+  name: 'Jack',
+  value: 1
 })
 
+
+// effect(() => {
+//   console.log('effect1', obj.ok)
+//   effect(() => {
+//     console.log('effect2', obj.name)
+//   })
+// })
 
 effect(() => {
-  console.log("effect run")
-  console.log(obj.ok ? obj.name : 'not ok')
+  console.log(obj.value)
+}, {
+  scheduler(fn) {
+    jobQueue.add(fn)
+    flushJob()
+  }
 })
 
 
-// obj.name = '123'
-obj.ok = false
-obj.name = '456'
+obj.value++
+obj.value++
+// console.log('end')
 
 
