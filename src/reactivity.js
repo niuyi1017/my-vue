@@ -3,19 +3,6 @@ const targetMap = new WeakMap()
 let activeEffect = null
 const effectStack = []
 
-const jobQueue = new Set()
-const p = Promise.resolve()
-let isFlushing = false
-
-function flushJob() {
-  if (isFlushing) return
-  isFlushing = true
-  p.then(() => {
-    jobQueue.forEach(job => job())
-  }).finally(() => {
-    isFlushing = false
-  })
-}
 
 function effect(fn, options = {}) {
   const effectFn = () => {
@@ -23,7 +10,6 @@ function effect(fn, options = {}) {
     activeEffect = effectFn
     effectStack.push(effectFn)
     const res = fn()
-    // console.log('effcet run')
     effectStack.pop()
     activeEffect = effectStack[effectStack.length - 1]
     return res
@@ -36,8 +22,6 @@ function effect(fn, options = {}) {
   } else {
     return effectFn
   }
-
-
 
 }
 
@@ -64,6 +48,66 @@ function computed(getter) {
   }
   return obj
 }
+
+function watch(source, cb, options = {}) {
+  let getter
+
+  if (typeof source === 'function') {
+    getter = source
+  } else {
+    getter = () => traverse(source)
+  }
+
+  let cleanup
+
+  function onInvalidate(fn) {
+    cleanup = fn
+  }
+
+  let oldValue, newValue
+
+  const job = () => {
+    newValue = effectFn()
+    if (cleanup) {
+      cleanup()
+    }
+    cb(newValue, oldValue, onInvalidate)
+    oldValue = newValue
+  }
+
+
+  const effectFn = effect(() => getter(), {
+    lazy: true,
+    scheduler() {
+      if (options.flush === 'post') {
+        const p = Promise.resolve()
+        p.then(() => {
+          job()
+        })
+      } else {
+        job()
+      }
+    }
+  })
+
+  if (options.immediate) {
+    job()
+  } else {
+    oldValue = effectFn()
+  }
+}
+
+function traverse(value, seen = new Set()) {
+
+  if (typeof value !== 'object' || value === null || seen.has(value)) return
+  seen.add(value)
+  for (let k in value) {
+    traverse(value[k], seen)
+  }
+  return value
+
+}
+
 
 
 function cleanup(effectFn) {
@@ -137,7 +181,8 @@ const reactive = (target) => {
 export {
   reactive,
   effect,
-  computed
+  computed,
+  watch
 }
 
 
