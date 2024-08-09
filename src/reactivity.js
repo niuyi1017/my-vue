@@ -22,15 +22,49 @@ function effect(fn, options = {}) {
     cleanup(effectFn)
     activeEffect = effectFn
     effectStack.push(effectFn)
-    fn()
+    const res = fn()
+    // console.log('effcet run')
     effectStack.pop()
     activeEffect = effectStack[effectStack.length - 1]
+    return res
   }
   effectFn.deps = []
   effectFn.options = options
-  effectFn()
+
+  if (!options.lazy) {
+    effectFn()
+  } else {
+    return effectFn
+  }
+
+
 
 }
+
+function computed(getter) {
+  let value
+  let dirty = true
+
+  let effectFn = effect(getter, {
+    lazy: true,
+    scheduler() {
+      dirty = true
+      trigger(obj, 'value')
+    }
+  })
+  const obj = {
+    get value() {
+      if (dirty) {
+        track(obj, 'value')
+        value = effectFn()
+        dirty = false
+      }
+      return value
+    }
+  }
+  return obj
+}
+
 
 function cleanup(effectFn) {
   for (let i = 0; i < effectFn.deps.length; i++) {
@@ -91,37 +125,22 @@ const reactive = (target) => {
     set(target, key, value) {
       target[key] = value
       trigger(target, key)
+      return true
     }
   }
   return new Proxy(target, handler)
 }
 
-const obj = reactive({
-  ok: true,
-  name: 'Jack',
-  value: 1
-})
 
 
-// effect(() => {
-//   console.log('effect1', obj.ok)
-//   effect(() => {
-//     console.log('effect2', obj.name)
-//   })
-// })
 
-effect(() => {
-  console.log(obj.value)
-}, {
-  scheduler(fn) {
-    jobQueue.add(fn)
-    flushJob()
-  }
-})
+export {
+  reactive,
+  effect,
+  computed
+}
 
 
-obj.value++
-obj.value++
-// console.log('end')
+
 
 

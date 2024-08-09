@@ -1,0 +1,25 @@
+import { reactive, effect, computed } from "./reactivity.js";
+
+const obj = reactive({
+  a: 1,
+  b: 2
+})
+
+// const effectFn = effect(() => obj.a + obj.b, {
+//   lazy: true
+// })
+// const value = effectFn()
+// console.log(value)
+
+const sum = computed(() => obj.a + obj.b)
+// console.log(sum.value)
+// console.log(sum.value)
+// obj.a++
+// console.log(sum.value)
+
+effect(() => {
+  console.log("effct")
+  console.log(sum.value)
+})
+
+obj.a++ 
