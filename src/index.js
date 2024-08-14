@@ -1,4 +1,5 @@
 import { reactive, effect, computed, watch } from "./reactivity.js";
+import { fetch } from "./utils.js";
 
 const obj = reactive({
   a: 1,
@@ -28,16 +29,7 @@ const obj = reactive({
 //   a:1
 // })
 
-let count = 0
-function fetch() {
-  count++
-  const res = count === 1 ? 'A' : 'B'
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(res)
-    }, count === 1 ? 1000 : 100);
-  })
-}
+
 
 let finallyData
 watch(() => obj.a, async (newVal, oldVal, onInvalidate) => {

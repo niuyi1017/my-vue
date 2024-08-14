@@ -12,6 +12,19 @@ function flushJob() {
   })
 }
 
+
+let count = 0
+function fetch() {
+  count++
+  const res = count === 1 ? 'A' : 'B'
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(res)
+    }, count === 1 ? 1000 : 100);
+  })
+}
+
 export {
-  flushJob
+  flushJob,
+  fetch
 }
