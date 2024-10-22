@@ -1,3 +1,25 @@
+function traverse(value, seen = new Set()) {
+
+  if (typeof value !== 'object' || value === null || seen.has(value)) return
+  seen.add(value)
+  for (let k in value) {
+    traverse(value[k], seen)
+  }
+  return value
+
+}
+
+
+
+function cleanup(effectFn) {
+  for (let i = 0; i < effectFn.deps.length; i++) {
+    const deps = effectFn.deps[i]
+    deps.delete(effectFn)
+  }
+  effectFn.deps = []
+}
+
+
 const jobQueue = new Set()
 const p = Promise.resolve()
 let isFlushing = false
@@ -25,6 +47,8 @@ function fetch() {
 }
 
 export {
+  traverse,
+  cleanup,
   flushJob,
   fetch
 }
