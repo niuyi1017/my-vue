@@ -1,21 +1,14 @@
 module.exports = {
+  preset: 'ts-jest',
   testEnvironment: 'node',
-  moduleFileExtensions: ['js', 'jsx', 'json', 'vue'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   transform: {
-    '^.+\\.vue$': 'vue-jest',
-    '^.+\\.jsx?$': 'babel-jest'
+    '^.+\\.tsx?$': 'ts-jest',
   },
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1'
+  testMatch: ['**/?(*.)+(spec|test).[tj]s?(x)'],
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.json',
+    },
   },
-  snapshotSerializers: ['jest-serializer-vue'],
-  testMatch: ['**/tests/**/*.spec.(js|jsx|ts|tsx)'],
-  collectCoverage: true,
-  collectCoverageFrom: [
-    'src/**/*.{js,vue}',
-    '!src/main.js',
-    '!src/router/index.js',
-    '!**/node_modules/**'
-  ],
-  coverageReporters: ['html', 'text-summary']
 };

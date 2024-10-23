@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const promiseAll = require('../practice/promise-1022');
+const promiseAll = require('../src/practice/promise-1022');
 
 describe('promiseAll', () => {
   it('should resolve with an array of resolved values when all promises resolve', async () => {
