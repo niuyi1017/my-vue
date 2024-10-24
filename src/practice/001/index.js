@@ -1,5 +1,5 @@
 import { reactive, effect, computed, watch } from "./reactivity.js";
-import { fetch } from "./utils.js";
+import { fetch } from "../../utils.js";
 
 const obj = reactive({
   a: 1,
