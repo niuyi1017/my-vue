@@ -1,4 +1,4 @@
-import { promiseAll } from '../src/practice/1022/promise-1022';
+import { promiseAll } from '../src/practice/promiseAll/promise-1022';
 import {describe, expect, test} from '@jest/globals';
 
 describe('promiseAll', () => {
