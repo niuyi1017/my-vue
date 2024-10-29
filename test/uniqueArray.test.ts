@@ -1,4 +1,4 @@
-import { uniqueArray, uniqueArrayByMap, uniqueArrayByIndexOf } from '../src/practice/uniqueArray/uniqueArray';
+import { uniqueArray, uniqueArrayByMap, uniqueArrayByIndexOf } from '../src/practice/uniqueArray/uniqueArray-1029';
 import {describe, expect, test} from '@jest/globals';
 
 describe('uniqueArray functions', () => {
