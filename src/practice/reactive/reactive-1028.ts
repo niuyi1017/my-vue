@@ -6,7 +6,7 @@ const targetMap: TargetMap = new WeakMap<object, DepsMap>();
 let activeEffect: Effect | null = null;
 
 
-const track = (target:object, key:string| symbol) => {
+const track = (target:object, key:string | symbol) => {
   let depsMap = targetMap.get(target)
   if(!depsMap){
     depsMap = new Map()
@@ -41,12 +41,12 @@ const effect = (fn:Effect) => {
 }
 
 const reactive =  <T extends object>(target: T): T => {
-  const handler :ProxyHandler<T> = {
+  const handler : ProxyHandler<T> = {
     get(target, key ,receiver){
       track(target, key)
       return Reflect.get(target, key, receiver);
     },
-    set(target:object, key:string, value:any, receiver){
+    set(target, key, value, receiver){
       const result = Reflect.set(target, key, value, receiver);
       trigger(target, key);
       return result;
