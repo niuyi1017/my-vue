@@ -1,4 +1,4 @@
-import { flattenArray } from '../src/practice/flatten/flatten-1029';
+import { flatten as flattenArray } from '../src/practice/flatten/flatten-1031';
 import { describe,it,expect } from '@jest/globals';
 
 describe('flattenArray', () => {

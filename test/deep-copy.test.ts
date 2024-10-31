@@ -1,4 +1,4 @@
-import { deepCopy } from '../src/practice/deepCopy/deepCopy-1029';
+import { deepCopy } from '../src/practice/deepCopy/deepCopy-1031';
 import { describe, expect, test } from '@jest/globals';
 
 

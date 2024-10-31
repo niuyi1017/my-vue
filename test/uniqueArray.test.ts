@@ -1,5 +1,5 @@
-import { uniqueArray, uniqueArrayByMap, uniqueArrayByIndexOf } from '../src/practice/uniqueArray/uniqueArray-1029';
-import {describe, expect, test} from '@jest/globals';
+import { uniqueArray, uniqueArrayByMap, uniqueArrayByIndexOf } from '../src/practice/uniqueArray/uniqueArray-1031';
+import { describe, expect, test } from '@jest/globals';
 
 describe('uniqueArray functions', () => {
   const testArray = [1, 2, 2, 3, 4, 4, 5];

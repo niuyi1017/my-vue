@@ -1,5 +1,5 @@
-import { promiseAll } from '../src/practice/promiseAll/promise-1022';
-import {describe, expect, test} from '@jest/globals';
+import { promiseAll } from '../src/practice/promiseAll/promise-1031';
+import { describe, expect, test } from '@jest/globals';
 
 describe('promiseAll', () => {
   test('resolves all promises in the array', async () => {

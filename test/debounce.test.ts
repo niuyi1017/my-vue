@@ -1,4 +1,4 @@
-import { debounce } from '../src/practice/debounce/debounce-1030';
+import { debounce } from '../src/practice/debounce/debounce-1031';
 
 import { jest, describe, it,expect } from '@jest/globals';
 
