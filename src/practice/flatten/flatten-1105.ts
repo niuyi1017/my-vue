@@ -1,10 +1,8 @@
-const flatten = <T>(arr: T[]): T[] => {
-
-  const result: T[] = []
+const flatten = (arr: any): any => {
+  const result = []
 
   const _flatten = (_arr: any) => {
-
-    for (const item of _arr) {
+    for (const item in _arr) {
       if (Array.isArray(item)) {
         _flatten(item)
       } else {
@@ -12,8 +10,12 @@ const flatten = <T>(arr: T[]): T[] => {
       }
     }
   }
-  _flatten(arr)
 
-  return result
+  return flatten
 
+
+}
+
+export {
+  flatten
 }

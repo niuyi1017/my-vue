@@ -1,20 +1,20 @@
-const flatten = (arr:any)  => {
-  const resultArr:any = []
+const flatten = <T>(arr: T[]): T[] => {
+  const resultArr: T[] = []
 
-  const _flatten = (_arr:any) => {
-    for(const item of _arr){
-      if(Array.isArray(item)){
+  const _flatten = (_arr: T[]) => {
+    for (const item of _arr) {
+      if (Array.isArray(item)) {
         _flatten(item)
-      }else{
+      } else {
         resultArr.push(item)
       }
     }
   }
-  
+
   _flatten(arr)
-  return resultArr 
+  return resultArr
 }
 
-export{
+export {
   flatten
 }
