@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { lengthOfLIS, lengthOfLCIS } from '../src/practice/dp/dp-1113';
+import { lengthOfLIS, lengthOfLCIS } from '../src/practice/dp/dp-1114';
 
 
 

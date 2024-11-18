@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { reactive, effect } from '../src/practice/reactive/reactive-1031';
+import { reactive, effect } from '../src/practice/reactive/reactive-1114';
 
 describe('reactive', () => {
   test('should track and trigger effects', () => {
