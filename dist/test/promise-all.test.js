@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const promise_1022_1 = require("../src/practice/promiseAll/promise-1022");
+const promise_1105_1 = require("../src/practice/promiseAll/promise-1105");
 const globals_1 = require("@jest/globals");
 (0, globals_1.describe)('promiseAll', () => {
     (0, globals_1.test)('resolves all promises in the array', () => __awaiter(void 0, void 0, void 0, function* () {
@@ -18,11 +18,11 @@ const globals_1 = require("@jest/globals");
         const promise3 = new Promise((resolve) => {
             setTimeout(resolve, 100, 'foo');
         });
-        const result = yield (0, promise_1022_1.promiseAll)([promise1, promise2, promise3]);
+        const result = yield (0, promise_1105_1.promiseAll)([promise1, promise2, promise3]);
         (0, globals_1.expect)(result).toEqual([3, 42, 'foo']);
     }));
     (0, globals_1.test)('resolves an empty array', () => __awaiter(void 0, void 0, void 0, function* () {
-        const result = yield (0, promise_1022_1.promiseAll)([]);
+        const result = yield (0, promise_1105_1.promiseAll)([]);
         (0, globals_1.expect)(result).toEqual([]);
     }));
     (0, globals_1.test)('rejects if any promise rejects', () => __awaiter(void 0, void 0, void 0, function* () {
@@ -31,10 +31,10 @@ const globals_1 = require("@jest/globals");
         const promise3 = new Promise((resolve) => {
             setTimeout(resolve, 100, 'foo');
         });
-        yield (0, globals_1.expect)((0, promise_1022_1.promiseAll)([promise1, promise2, promise3])).rejects.toEqual('error');
+        yield (0, globals_1.expect)((0, promise_1105_1.promiseAll)([promise1, promise2, promise3])).rejects.toEqual('error');
     }));
     (0, globals_1.test)('rejects if input is not an array', () => __awaiter(void 0, void 0, void 0, function* () {
         // @ts-ignore
-        yield (0, globals_1.expect)((0, promise_1022_1.promiseAll)('not an array')).rejects.toThrow(TypeError);
+        yield (0, globals_1.expect)((0, promise_1105_1.promiseAll)('not an array')).rejects.toThrow(TypeError);
     }));
 });

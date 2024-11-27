@@ -15,8 +15,30 @@ function flattenArray(arr: any[]): any[] {
   return result;
 }
 
+const flattenObject = (obj: any): any => {
+  const result: any = {};
+
+  const flatten = (input: any, prefix = '') => {
+    for (const key in input) {
+      if (input.hasOwnProperty(key)) {
+        const value = input[key];
+        if (value && typeof value === 'object' && !Array.isArray(value)) {
+          flatten(value, `${prefix}${key}.`);
+        } else {
+          result[`${prefix}${key}`] = value;
+        }
+      }
+    }
+  };
+
+  flatten(obj);
+  return result;
+}
+
+
 export {
-  flattenArray
+  flattenArray,
+  flattenObject
 }
 
 // 示例用法
