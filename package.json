@@ -13,7 +13,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@jest/globals": "^29.7.0"
+    "@jest/globals": "^29.7.0",
+    "@vue/reactivity": "^3.5.13"
   },
   "devDependencies": {
     "@types/node": "^22.7.9",
